@@ -82,8 +82,8 @@ type Response struct {
 }
 
 // Res returns the ResultString of a Response, as well as any error encountered.  Depending on the command, this is sometimes more useful than Val()
-func (r *Response) Res() (string,error) {
-  return r.ResultString, r.Error
+func (r *Response) Res() (string, error) {
+	return r.ResultString, r.Error
 }
 
 // Err returns the error value from the response
@@ -287,7 +287,7 @@ func (a *AGI) Command(cmd ...string) (resp *Response) {
 
 	// If the Status code is not 200, return an error
 	if resp.Status != 200 {
-		resp.Error = fmt.Errorf("Non-200 status code")
+		resp.Error = fmt.Errorf("non-200 status code")
 	}
 	return
 }
@@ -305,7 +305,7 @@ func (a *AGI) Status() (State, error) {
 	}
 	state, err := strconv.Atoi(r)
 	if err != nil {
-		return StateDown, fmt.Errorf("Failed to parse state %s", r)
+		return StateDown, fmt.Errorf("failed to parse state %s", r)
 	}
 	return State(state), nil
 }
@@ -496,7 +496,7 @@ func (a *AGI) WaitForDigit(timeout time.Duration) (digit string, err error) {
 	resp := a.Command("WAIT FOR DIGIT", toMSec(timeout))
 	resp.ResultString = ""
 	if resp.Error == nil && strconv.IsPrint(rune(resp.Result)) {
-		resp.ResultString = string(resp.Result)
+		resp.ResultString = string(rune(resp.Result))
 	}
 	return resp.Res()
 }
