@@ -7,7 +7,9 @@ import (
 )
 
 func main() {
-	agi.Listen(":8080", handler)
+	fmt.Print("start 18081\n")
+	agi.Listen(":18081", handler)
+	fmt.Print("exit")
 }
 
 func handler(a *agi.AGI) {
@@ -22,7 +24,10 @@ func handler(a *agi.AGI) {
 	}
 	fmt.Print("record demo end\n")
 
-	// 开始转化
+	a.StreamFile("/var/lib/asterisk/sounds/tqcenglish", "#", 0)
 
+	// 开始转化
+	result := wavToText("/var/lib/asterisk/sounds/tqcenglish.wav")
+	fmt.Printf("get result %s\n", result)
 	a.Hangup()
 }
